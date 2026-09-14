@@ -2,27 +2,136 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Angel web</title>
     <style>
-        body{
+        body {
             margin: 0;
             padding: 0;
             height: 100vh;
-            background-image: url(photo_3.jpg);
+            background-image: url('photo_3.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
         }
-        audio{
+
+        /* حاوية القرص والزر */
+        .gramophone-container {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 30px;
+            left: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
             z-index: 10;
+            cursor: pointer;
+        }
+
+        /* تصميم قرص الغرامافون */
+        .vinyl-record {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: repeating-radial-gradient(
+                #111111,
+                #111111 2px,
+                #292929 3px,
+                #111111 4px
+            );
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), inset 0 0 0 2px rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.4s ease;
+        }
+
+        /* مركز القرص */
+        .record-label {
+            width: 45px;
+            height: 45px;
+            background: #d4af37; /* لون ذهبي */
+            border-radius: 50%;
+            border: 3px solid #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .record-label::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #000;
+            border-radius: 50%;
+        }
+
+        /* أنيميشن الدوران عند تشغيل الصوت */
+        .spinning {
+            animation: rotateRecord 2.5s linear infinite;
+        }
+
+        @keyframes rotateRecord {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* زر التشغيل */
+        .play-toggle-btn {
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .gramophone-container:hover .play-toggle-btn {
+            background: rgba(212, 175, 55, 0.8);
+            color: #000;
         }
     </style>
 </head>
 <body>
- <audio controls autoplay src="Fayrouz  PLAY by Reema Rahbany.m4a"></audio>   
+
+    <!-- حاوية القرص التفاعلي -->
+    <div class="gramophone-container" onclick="toggleMusic()">
+        <div class="vinyl-record" id="record">
+            <div class="record-label"></div>
+        </div>
+        <button class="play-toggle-btn" id="btnText">تشغيل 🎵</button>
+    </div>
+
+    <!-- عنصر الصوت الخفي -->
+    <audio id="bgAudio" loop src="Fayrouz  PLAY by Reema Rahbany.m4a"></audio>
+
+    <script>
+        const audio = document.getElementById('bgAudio');
+        const record = document.getElementById('record');
+        const btnText = document.getElementById('btnText');
+
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+                record.classList.add('spinning');
+                btnText.textContent = 'إيقاف ⏸';
+            } else {
+                audio.pause();
+                record.classList.remove('spinning');
+                btnText.textContent = 'تشغيل 🎵';
+            }
+        }
+    </script>
 </body>
 </html>
