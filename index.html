@@ -14,29 +14,66 @@
             background-position: center;
             background-repeat: no-repeat;
             position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: Arial, sans-serif;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* حاوية القرص والزر */
+        /* النص في المنتصف */
+        .center-title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ffffff;
+            font-size: 32px;
+            font-weight: bold;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8), 0 0 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            white-space: nowrap;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        /* النمط العام لمشغلات الجرامافون */
         .gramophone-container {
             position: absolute;
-            top: 30px;
-            left: 30px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
             z-index: 10;
             cursor: pointer;
         }
 
+        /* مواضع الأقراص الأربعة في الزوايا حسب الترتيب بالصورة */
+        /* 1: أعلى اليسار */
+        .player-1 {
+            top: 25px;
+            left: 25px;
+        }
+
+        /* 2: أعلى اليمين */
+        .player-2 {
+            top: 25px;
+            right: 25px;
+        }
+
+        /* 3: أسفل اليسار */
+        .player-3 {
+            bottom: 25px;
+            left: 25px;
+        }
+
+        /* 4: أسفل اليمين */
+        .player-4 {
+            bottom: 25px;
+            right: 25px;
+        }
+
         /* تصميم قرص الغرامافون */
         .vinyl-record {
-            width: 130px;
-            height: 130px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             background: repeating-radial-gradient(
                 #111111,
@@ -44,7 +81,7 @@
                 #292929 3px,
                 #111111 4px
             );
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), inset 0 0 0 2px rgba(255, 255, 255, 0.1);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7), inset 0 0 0 2px rgba(255, 255, 255, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -53,11 +90,11 @@
 
         /* مركز القرص */
         .record-label {
-            width: 45px;
-            height: 45px;
+            width: 35px;
+            height: 35px;
             background: #d4af37; /* لون ذهبي */
             border-radius: 50%;
-            border: 3px solid #111;
+            border: 2px solid #111;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -65,13 +102,13 @@
 
         .record-label::after {
             content: '';
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             background: #000;
             border-radius: 50%;
         }
 
-        /* أنيميشن الدوران عند تشغيل الصوت */
+        /* أنيميشن الدوران */
         .spinning {
             animation: rotateRecord 2.5s linear infinite;
         }
@@ -85,51 +122,88 @@
             }
         }
 
-        /* زر التشغيل */
+        /* أزرار التحكم */
         .play-toggle-btn {
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.65);
             color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 5px 14px;
+            border-radius: 15px;
+            font-size: 12px;
+            backdrop-filter: blur(4px);
             transition: all 0.3s ease;
         }
 
         .gramophone-container:hover .play-toggle-btn {
-            background: rgba(212, 175, 55, 0.8);
+            background: rgba(212, 175, 55, 0.85);
             color: #000;
         }
     </style>
 </head>
 <body>
 
-    <!-- حاوية القرص التفاعلي -->
-    <div class="gramophone-container" onclick="toggleMusic()">
-        <div class="vinyl-record" id="record">
+    <!-- النص في منتصف الشاشة -->
+    <div class="center-title">إلى حبيبتي إسراء</div>
+
+    <!-- القرص 1 (أعلى اليسار) -->
+    <div class="gramophone-container player-1" onclick="toggleMusic(1)">
+        <div class="vinyl-record" id="record1">
             <div class="record-label"></div>
         </div>
-        <button class="play-toggle-btn" id="btnText">تشغيل 🎵</button>
+        <button class="play-toggle-btn" id="btn1">تشغيل 🎵</button>
+        <audio id="audio1" loop src="Fayrouz  PLAY by Reema Rahbany.m4a"></audio>
     </div>
 
-    <!-- عنصر الصوت الخفي -->
-    <audio id="bgAudio" loop src="Fayrouz  PLAY by Reema Rahbany.m4a"></audio>
+    <!-- القرص 2 (أعلى اليمين) -->
+    <div class="gramophone-container player-2" onclick="toggleMusic(2)">
+        <div class="vinyl-record" id="record2">
+            <div class="record-label"></div>
+        </div>
+        <button class="play-toggle-btn" id="btn2">تشغيل 🎵</button>
+        <audio id="audio2" loop src="Wahdon CD 1 TRACK 5 (320).mp3"></audio> 
+    </div>
+
+    <!-- القرص 3 (أسفل اليسار) -->
+    <div class="gramophone-container player-3" onclick="toggleMusic(3)">
+        <div class="vinyl-record" id="record3">
+            <div class="record-label"></div>
+        </div>
+        <button class="play-toggle-btn" id="btn3">تشغيل 🎵</button>
+        <audio id="audio3" loop src="Fairuz - Kifak Inta.mp3"></audio> 
+    </div>
+
+    <!-- القرص 4 (أسفل اليمين) -->
+    <div class="gramophone-container player-4" onclick="toggleMusic(4)">
+        <div class="vinyl-record" id="record4">
+            <div class="record-label"></div>
+        </div>
+        <button class="play-toggle-btn" id="btn4">تشغيل 🎵</button>
+        <audio id="audio4" loop src="Fairuz - Indi Thika Feek.mp3"></audio> 
+    </div>
 
     <script>
-        const audio = document.getElementById('bgAudio');
-        const record = document.getElementById('record');
-        const btnText = document.getElementById('btnText');
+        function toggleMusic(id) {
+            // إيقاف جميع الأغاني وأقراص الدوران الأخرى أولاً
+            for (let i = 1; i <= 4; i++) {
+                const audio = document.getElementById(`audio${i}`);
+                const record = document.getElementById(`record${i}`);
+                const btn = document.getElementById(`btn${i}`);
 
-        function toggleMusic() {
-            if (audio.paused) {
-                audio.play();
-                record.classList.add('spinning');
-                btnText.textContent = 'إيقاف ⏸';
-            } else {
-                audio.pause();
-                record.classList.remove('spinning');
-                btnText.textContent = 'تشغيل 🎵';
+                if (i === id) {
+                    if (audio.paused) {
+                        audio.play();
+                        record.classList.add('spinning');
+                        btn.textContent = 'إيقاف ⏸';
+                    } else {
+                        audio.pause();
+                        record.classList.remove('spinning');
+                        btn.textContent = 'تشغيل 🎵';
+                    }
+                } else {
+                    audio.pause();
+                    record.classList.remove('spinning');
+                    btn.textContent = 'تشغيل 🎵';
+                }
             }
         }
     </script>
