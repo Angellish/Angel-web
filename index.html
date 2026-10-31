@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Angel web</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -13,199 +17,337 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            position: relative;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            position: relative;
         }
 
-        /* النص في المنتصف */
+        /* طبقة تظليم خفيفة لإبراز العناصر */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 1;
+        }
+
+        /* النص العلوي */
         .center-title {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #ffffff;
-            font-size: 32px;
-            font-weight: bold;
-            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8), 0 0 10px rgba(0, 0, 0, 0.5);
-            text-align: center;
-            white-space: nowrap;
+            position: relative;
             z-index: 5;
-            pointer-events: none;
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 30px;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+            letter-spacing: 1px;
         }
 
-        /* النمط العام لمشغلات الجرامافون */
-        .gramophone-container {
-            position: absolute;
+        /* حاوية مشغل MD Vinyl */
+        .player-wrapper {
+            position: relative;
+            z-index: 5;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
-            z-index: 10;
-            cursor: pointer;
+            justify-content: center;
+            width: 100%;
+            max-width: 380px;
         }
 
-        /* مواضع الأقراص الأربعة في الزوايا حسب الترتيب بالصورة */
-        /* 1: أعلى اليسار */
-        .player-1 {
-            top: 25px;
-            left: 25px;
+        /* قرص الفينيل الرئيسي */
+        .turntable-container {
+            position: relative;
+            width: 260px;
+            height: 260px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* 2: أعلى اليمين */
-        .player-2 {
-            top: 25px;
-            right: 25px;
-        }
-
-        /* 3: أسفل اليسار */
-        .player-3 {
-            bottom: 25px;
-            left: 25px;
-        }
-
-        /* 4: أسفل اليمين */
-        .player-4 {
-            bottom: 25px;
-            right: 25px;
-        }
-
-        /* تصميم قرص الغرامافون */
         .vinyl-record {
-            width: 100px;
-            height: 100px;
+            width: 250px;
+            height: 250px;
             border-radius: 50%;
             background: repeating-radial-gradient(
                 #111111,
                 #111111 2px,
-                #292929 3px,
-                #111111 4px
+                #222222 3px,
+                #111111 5px
             );
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7), inset 0 0 0 2px rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9), inset 0 0 0 2px rgba(255, 255, 255, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.4s ease;
+            transition: transform 0.5s ease;
         }
 
         /* مركز القرص */
         .record-label {
-            width: 35px;
-            height: 35px;
-            background: #d4af37; /* لون ذهبي */
+            width: 80px;
+            height: 80px;
+            background: #d4af37;
             border-radius: 50%;
-            border: 2px solid #111;
+            border: 4px solid #111;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
         }
 
         .record-label::after {
             content: '';
-            width: 6px;
-            height: 6px;
+            width: 12px;
+            height: 12px;
             background: #000;
             border-radius: 50%;
         }
 
-        /* أنيميشن الدوران */
-        .spinning {
-            animation: rotateRecord 2.5s linear infinite;
+        /* ذراع الجرامافون (Tonearm) */
+        .tonearm {
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            width: 80px;
+            height: 160px;
+            pointer-events: none;
+            transform-origin: 65px 20px;
+            transform: rotate(-30deg); /* الوضع الأساسي: بعيد عن القرص */
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10;
+        }
+
+        .tonearm-base {
+            position: absolute;
+            top: 10px;
+            right: 50px;
+            width: 30px;
+            height: 30px;
+            background: #444;
+            border-radius: 50%;
+            border: 2px solid #666;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+        }
+
+        .tonearm-stick {
+            position: absolute;
+            top: 25px;
+            right: 62px;
+            width: 6px;
+            height: 120px;
+            background: linear-gradient(to right, #bbb, #eee, #999);
+            border-radius: 3px;
+            transform: rotate(-15deg);
+        }
+
+        .tonearm-head {
+            position: absolute;
+            bottom: 15px;
+            right: 83px;
+            width: 14px;
+            height: 25px;
+            background: #222;
+            border-radius: 2px;
+            transform: rotate(-15deg);
+        }
+
+        /* تحريك الذراع والدوران عند التشغيل */
+        .playing .tonearm {
+            transform: rotate(0deg); /* استقرار الذراع فوق القرص */
+        }
+
+        .playing .vinyl-record {
+            animation: rotateRecord 3s linear infinite;
+            animation-delay: 0.6s; /* يبدأ الدوران بعد نزول الذراع */
         }
 
         @keyframes rotateRecord {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
-        /* أزرار التحكم */
-        .play-toggle-btn {
-            background: rgba(0, 0, 0, 0.65);
+        /* اسم الأغنية */
+        .track-info {
+            text-align: center;
             color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 5px 14px;
-            border-radius: 15px;
-            font-size: 12px;
-            backdrop-filter: blur(4px);
-            transition: all 0.3s ease;
+            margin-top: 25px;
         }
 
-        .gramophone-container:hover .play-toggle-btn {
+        .track-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+        }
+
+        .track-artist {
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        /* أزرار التحكم السفيلة (MD Vinyl Style) */
+        .controls-container {
+            position: relative;
+            z-index: 5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            margin-bottom: 40px;
+            width: 100%;
+        }
+
+        .control-btn {
+            background: rgba(30, 30, 30, 0.75);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .control-btn:hover {
             background: rgba(212, 175, 55, 0.85);
             color: #000;
+            transform: translateY(-2px);
+        }
+
+        .play-btn {
+            padding: 14px 32px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-    <!-- النص في منتصف الشاشة -->
+    <!-- العنوان العلوي -->
     <div class="center-title">To my beloved israa</div>
 
-    <!-- القرص 1 (أعلى اليسار) -->
-    <div class="gramophone-container player-1" onclick="toggleMusic(1)">
-        <div class="vinyl-record" id="record1">
-            <div class="record-label"></div>
+    <!-- مشغل الفينيل المركزي -->
+    <div class="player-wrapper" id="playerWrapper">
+        <div class="turntable-container">
+            <!-- ذراع الجرامافون -->
+            <div class="tonearm">
+                <div class="tonearm-base"></div>
+                <div class="tonearm-stick"></div>
+                <div class="tonearm-head"></div>
+            </div>
+
+            <!-- قرص الفينيل -->
+            <div class="vinyl-record">
+                <div class="record-label"></div>
+            </div>
         </div>
-        <button class="play-toggle-btn" id="btn1">تشغيل 🎵</button>
-        <audio id="audio1" loop src="Fayrouz  PLAY by Reema Rahbany.m4a"></audio>
+
+        <!-- تفاصيل الأغنية الحالية -->
+        <div class="track-info">
+            <div class="track-title" id="trackTitle">اسم الأغنية</div>
+            <div class="track-artist" id="trackArtist">فيروز</div>
+        </div>
     </div>
 
-    <!-- القرص 2 (أعلى اليمين) -->
-    <div class="gramophone-container player-2" onclick="toggleMusic(2)">
-        <div class="vinyl-record" id="record2">
-            <div class="record-label"></div>
-        </div>
-        <button class="play-toggle-btn" id="btn2">تشغيل 🎵</button>
-        <audio id="audio2" loop src="Wahdon CD 1 TRACK 5 (320).mp3"></audio> 
-    </div>
+    <!-- عنصر الصوت -->
+    <audio id="audioPlayer"></audio>
 
-    <!-- القرص 3 (أسفل اليسار) -->
-    <div class="gramophone-container player-3" onclick="toggleMusic(3)">
-        <div class="vinyl-record" id="record3">
-            <div class="record-label"></div>
-        </div>
-        <button class="play-toggle-btn" id="btn3">تشغيل 🎵</button>
-        <audio id="audio3" loop src="Fairuz - Kifak Inta.mp3"></audio> 
-    </div>
-
-    <!-- القرص 4 (أسفل اليمين) -->
-    <div class="gramophone-container player-4" onclick="toggleMusic(4)">
-        <div class="vinyl-record" id="record4">
-            <div class="record-label"></div>
-        </div>
-        <button class="play-toggle-btn" id="btn4">تشغيل 🎵</button>
-        <audio id="audio4" loop src="Fairuz - Indi Thika Feek.mp3"></audio> 
+    <!-- أزرار التحكم -->
+    <div class="controls-container">
+        <button class="control-btn" onclick="prevTrack()">⏮ السابق</button>
+        <button class="control-btn play-btn" id="playBtn" onclick="togglePlay()">تشغيل ▶</button>
+        <button class="control-btn" onclick="nextTrack()">التالي ⏭</button>
     </div>
 
     <script>
-        function toggleMusic(id) {
-            // إيقاف جميع الأغاني وأقراص الدوران الأخرى أولاً
-            for (let i = 1; i <= 4; i++) {
-                const audio = document.getElementById(`audio${i}`);
-                const record = document.getElementById(`record${i}`);
-                const btn = document.getElementById(`btn${i}`);
+        // قائمة الأغاني بالترتيب
+        const playlist = [
+            {
+                title: "PLAY",
+                artist: "فيروز (Reema Rahbany)",
+                src: "Fayrouz  PLAY by Reema Rahbany.m4a"
+            },
+            {
+                title: "وحدن",
+                artist: "فيروز",
+                src: "Wahdon CD 1 TRACK 5 (320).mp3"
+            },
+            {
+                title: "كيفك انت",
+                artist: "فيروز",
+                src: "Fairuz - Kifak Inta.mp3"
+            },
+            {
+                title: "عندي ثقة فيك",
+                artist: "فيروز",
+                src: "Fairuz - Indi Thika Feek.mp3"
+            }
+        ];
 
-                if (i === id) {
-                    if (audio.paused) {
-                        audio.play();
-                        record.classList.add('spinning');
-                        btn.textContent = 'إيقاف ⏸';
-                    } else {
-                        audio.pause();
-                        record.classList.remove('spinning');
-                        btn.textContent = 'تشغيل 🎵';
-                    }
-                } else {
-                    audio.pause();
-                    record.classList.remove('spinning');
-                    btn.textContent = 'تشغيل 🎵';
-                }
+        let currentTrackIndex = 0;
+        const audio = document.getElementById('audioPlayer');
+        const playerWrapper = document.getElementById('playerWrapper');
+        const playBtn = document.getElementById('playBtn');
+        const trackTitle = document.getElementById('trackTitle');
+        const trackArtist = document.getElementById('trackArtist');
+
+        // تحميل الأغنية الحالية
+        function loadTrack(index) {
+            const track = playlist[index];
+            audio.src = track.src;
+            trackTitle.textContent = track.title;
+            trackArtist.textContent = track.artist;
+        }
+
+        // تشغيل أو إيقاف
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                playerWrapper.classList.add('playing');
+                playBtn.textContent = 'إيقاف ⏸';
+            } else {
+                audio.pause();
+                playerWrapper.classList.remove('playing');
+                playBtn.textContent = 'تشغيل ▶';
             }
         }
+
+        // الأغنية التالية
+        function nextTrack() {
+            currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+            loadTrack(currentTrackIndex);
+            audio.play();
+            playerWrapper.classList.add('playing');
+            playBtn.textContent = 'إيقاف ⏸';
+        }
+
+        // الأغنية السابقة
+        function prevTrack() {
+            currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+            loadTrack(currentTrackIndex);
+            audio.play();
+            playerWrapper.classList.add('playing');
+            playBtn.textContent = 'إيقاف ⏸';
+        }
+
+        // عند انتهاء الأغنية -> تشغيل الأغنية التالية تلقائياً
+        audio.addEventListener('ended', function () {
+            nextTrack();
+        });
+
+        // تهيئة المشغل بأول أغنية عند الفتح
+        loadTrack(currentTrackIndex);
     </script>
 </body>
 </html>
