@@ -1,7 +1,11 @@
 /* ==========================================================
    ANGEL. — MUSIC PLAYER & INTERACTIONS
-   Add tracks to the playlist array below.
-   Keep each audio file in the same folder as index.html.
+   ADDING A PLAYABLE SONG:
+   1) Upload the audio file to the same GitHub folder as index.html.
+   2) Add one object to the playlist array below.
+   3) The src value must exactly match the uploaded filename (including spaces/capital letters).
+   Example:
+   { title: "Sweater Weather", artist: "The Neighbourhood", src: "Sweater Weather.mp3" }
    ========================================================== */
 
 const playlist = [
@@ -25,6 +29,13 @@ const playlist = [
     artist: "فيروز",
     src: "Fairuz - Indi Thika Feek.mp3"
   }
+
+  // ADD NEW SONGS BELOW THIS LINE (put a comma after the previous song):
+  // {
+  //   title: "Sweater Weather",
+  //   artist: "The Neighbourhood",
+  //   src: "Sweater Weather.mp3"
+  // }
 ];
 
 // ==========================================================
@@ -244,7 +255,9 @@ async function playAudio() {
 function setPlayingState(playing) {
   player.classList.toggle("is-playing", playing);
   record.classList.toggle("playing", playing);
-  playBtn.textContent = playing ? "Ⅱ" : "▶";
+  playBtn.innerHTML = playing
+    ? '<svg class="pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM15 5h4v14h-4z"/></svg>'
+    : '<svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5 19 12 7 19.5z"/></svg>';
   playBtn.setAttribute("aria-label", playing ? "Pause" : "Play");
 }
 

@@ -363,3 +363,32 @@ button { color: inherit; }
 .library-topline { display:flex; justify-content:space-between; color:#a38b67; font:8px var(--mono); letter-spacing:.13em; margin-bottom:17px; }.library-search { display:flex; align-items:center; gap:10px; padding:10px 13px; border:1px solid rgba(255,255,255,.09); border-radius:8px; background:rgba(0,0,0,.17); color:#c39a60; }.library-search input { width:100%; border:0; outline:0; background:transparent; color:#eee2cf; font:10px var(--sans); }.library-search input::placeholder { color:#786f62; }
 .library-list { display:flex; flex-direction:column; gap:5px; margin-top:14px; }.library-item { display:grid; grid-template-columns:28px minmax(0,1fr) auto; align-items:center; gap:10px; padding:12px 8px; border-bottom:1px solid rgba(255,255,255,.055); }.library-number { color:#9c8158; font:9px var(--mono); }.library-item-copy { display:flex; flex-direction:column; gap:4px; min-width:0; }.library-item-copy strong { color:#e6dac8; font:500 13px var(--serif); }.library-item-copy small { color:#887f72; font-size:9px; }.library-type { color:#9b896e; font:7px var(--mono); letter-spacing:.08em; text-align:right; }.library-hint { color:#766e63; font:8px var(--mono); margin:17px 0 0; }.library-hint code { color:#c2a06d; }
 @media(max-width:700px) { .taste-library { padding:22px 18px; margin-top:38px; }.taste-columns { grid-template-columns:1fr; gap:24px; }.taste-heading { align-items:start; flex-direction:column; gap:8px; }.archive-library { padding:19px 15px; }.library-item { grid-template-columns:22px minmax(0,1fr); }.library-type { grid-column:2; text-align:left; }.library-item-copy strong { font-size:12px; } }
+
+
+/* Consistent player icons (prevents emoji-style controls in iOS Safari) */
+.player-controls .icon-btn,
+.player-controls .main-play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.player-controls .icon-btn svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.player-controls .main-play svg {
+  width: 19px;
+  height: 19px;
+  display: block;
+  fill: currentColor;
+}
+.player-controls .main-play .pause-icon {
+  width: 18px;
+  height: 18px;
+}
