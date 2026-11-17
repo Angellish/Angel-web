@@ -256,8 +256,8 @@ function setPlayingState(playing) {
   player.classList.toggle("is-playing", playing);
   record.classList.toggle("playing", playing);
   playBtn.innerHTML = playing
-    ? '<svg class="pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM15 5h4v14h-4z"/></svg>'
-    : '<svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5 19 12 7 19.5z"/></svg>';
+    ? '<svg class="pause-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM15 5h4v14h-4z"/></svg>'
+    : '<svg class="play-icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5 19 12 7 19.5z"/></svg>';
   playBtn.setAttribute("aria-label", playing ? "Pause" : "Play");
 }
 

@@ -392,3 +392,65 @@ button { color: inherit; }
   width: 18px;
   height: 18px;
 }
+
+
+/* V5: reliable mobile Safari player controls */
+.player-controls {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  width: min(100%, 360px);
+  margin: 20px auto 18px;
+  gap: 8px;
+}
+.player-controls .icon-btn {
+  display: inline-flex !important;
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  padding: 8px;
+  align-items: center;
+  justify-content: center;
+  color: #d2c2a8;
+  opacity: 1;
+  visibility: visible;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.player-controls .icon-btn svg {
+  display: block !important;
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px;
+  min-height: 20px;
+  overflow: visible;
+  fill: none;
+  stroke: #d2c2a8;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.player-controls .main-play {
+  display: inline-flex !important;
+  flex: 0 0 52px;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  visibility: visible;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.player-controls .main-play svg {
+  display: block !important;
+  width: 20px !important;
+  height: 20px !important;
+  fill: #24190d;
+}
+@media (max-width: 380px) {
+  .player-controls { gap: 3px; width: 100%; }
+  .player-controls .icon-btn { flex-basis: 34px; width: 34px; height: 34px; }
+  .player-controls .main-play { flex-basis: 48px; width: 48px; height: 48px; }
+}
